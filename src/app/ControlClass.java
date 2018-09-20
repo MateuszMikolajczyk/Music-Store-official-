@@ -2,7 +2,6 @@ package app;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
 import data.Book;
 import data.Cassette;
 import data.Cd;
@@ -64,17 +63,7 @@ public class ControlClass {
 	public void controlApp() {
 		while (error) {
 			System.out.println(showMenu());
-			try {
-				input = sc.nextInt();
-				sc.nextLine();
-			} catch (InputMismatchException e) {
-				System.out.println("Wrong command, please try again!!!!!!");
-				e.printStackTrace();
-				sc.nextLine();
-			}
-			if (input > 15) {
-				System.out.println("Wrong command, please try again!!!!!!");
-			}
+			exceptionForInput(15);
 			switch (input) {
 			case addBook: {
 				try {
@@ -84,9 +73,9 @@ public class ControlClass {
 					System.out.println("Write ISBN");
 					isbn = sc.nextLine();
 				} catch (InputMismatchException e) {
+					e.printStackTrace();
 					System.out.println("Wrong type of data, please try again!!!!!!");
 					sc.nextLine();
-					e.printStackTrace();
 				}
 				publications = new Book(title, pages, publisher, author, isbn, price);
 				warehouse.addPublications(publications);
@@ -106,9 +95,9 @@ public class ControlClass {
 					volume = sc.nextInt();
 					sc.nextLine();
 				} catch (InputMismatchException e) {
+					e.printStackTrace();
 					System.out.println("Wrong type of data, please try again!!!!!!");
 					sc.nextLine();
-					e.printStackTrace();
 				}
 				publications = new Magazine(title, pages, publisher, edition, issn, year, volume, price);
 				warehouse.addPublications(publications);
@@ -118,9 +107,9 @@ public class ControlClass {
 				try {
 					sameDataForMusicCarriers(sc);
 				} catch (InputMismatchException e) {
+					e.printStackTrace();
 					System.out.println("Wrong type of data, please try again!!!!!!");
 					sc.nextLine();
-					e.printStackTrace();
 				}
 				musicCarriers = new Cd(performer, title, carrier, publisher, price);
 				warehouse.addMusicCarriers(musicCarriers);
@@ -130,9 +119,9 @@ public class ControlClass {
 				try {
 					sameDataForMusicCarriers(sc);
 				} catch (InputMismatchException e) {
+					e.printStackTrace();
 					System.out.println("Wrong type of data, please try again!!!!!!");
 					sc.nextLine();
-					e.printStackTrace();
 				}
 				musicCarriers = new Cassette(performer, title, carrier, publisher, price);
 				warehouse.addMusicCarriers(musicCarriers);
@@ -146,9 +135,9 @@ public class ControlClass {
 					System.out.println("Write type");
 					type = sc.nextLine();
 				} catch (InputMismatchException e) {
+					e.printStackTrace();
 					System.out.println("Wrong type of data, please try again!!!!!!");
 					sc.nextLine();
-					e.printStackTrace();
 				}
 				musicCarriers = new Vinyl(performer, title, carrier, publisher, price, size, type);
 				warehouse.addMusicCarriers(musicCarriers);
@@ -159,9 +148,9 @@ public class ControlClass {
 				try {
 					title = sc.nextLine();
 				} catch (InputMismatchException e) {
+					e.printStackTrace();
 					System.out.println("Wrong, please try again!!!!!!");
 					sc.nextLine();
-					e.printStackTrace();
 				}
 				System.out.println(warehouse.getPublication(title));
 				break;
@@ -172,9 +161,9 @@ public class ControlClass {
 					performer = sc.nextLine();
 					title = sc.nextLine();
 				} catch (InputMismatchException e) {
+					e.printStackTrace();
 					System.out.println("Wrong, please try again!!!!!!");
 					sc.nextLine();
-					e.printStackTrace();
 				}
 				System.out.println(warehouse.getMusicCarrier(title, performer));
 				break;
@@ -200,9 +189,9 @@ public class ControlClass {
 				try {
 					title = sc.nextLine();
 				} catch (InputMismatchException e) {
+					e.printStackTrace();
 					System.out.println("Wrong, please try again!!!!!!");
 					sc.nextLine();
-					e.printStackTrace();
 				}
 				warehouse.deletePublication(title);
 				break;
@@ -212,14 +201,15 @@ public class ControlClass {
 				try {
 					title = sc.nextLine();
 				} catch (InputMismatchException e) {
+					e.printStackTrace();
 					System.out.println("Wrong, please try again!!!!!!");
 					sc.nextLine();
-					e.printStackTrace();
 				}
 				warehouse.deleteMusicCarrier(title);
 				break;
 			}
 			case specialActions: {
+				specialActionMenuLogic();
 				break;
 			}
 			case exit:
@@ -277,4 +267,50 @@ public class ControlClass {
 		return print.toString();
 	}
 
+	public String showSubMenu() {
+		StringBuilder print = new StringBuilder(32);
+		print.append("| 1 - Create CSV Publications (Price,Pages,Publisher)\n");
+		print.append("| 2 - Create CSV Music Carriers (Performer,Title,Price,Carrier,Publisher)\n");
+		print.append("| 3 - Back");
+		return print.toString();
+	}
+
+	public void specialActionMenuLogic() {
+		boolean back = true;
+		int input = 0;
+
+		while (back) {
+			System.out.println(showSubMenu());
+			// input = sc.nextInt();
+			// sc.nextLine();
+			switch (input) {
+			case 1: {
+				warehouse.savePublicationCsv();
+				break;
+			}
+			case 2: {
+				warehouse.saveMusicCarriersCsv();
+				break;
+			}
+			case 3: {
+				back = false;
+				break;
+			}
+			}
+
+		}
+	}
+
+	public void exceptionForInput(int maxChoice) {
+		try {
+			input = sc.nextInt();
+			sc.nextLine();
+		} catch (InputMismatchException e) {
+			e.printStackTrace();
+			sc.nextLine();
+		}
+		if (input > maxChoice || input <= 0) {
+			System.out.println("Wrong command, please try again!!!!!!");
+		}
+	}
 }

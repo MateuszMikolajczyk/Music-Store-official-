@@ -9,6 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
+import additionalFunctions.CsvTools;
+
 public class Warehouse {
 
 	HashMap<String, Publications> publications;
@@ -118,4 +120,17 @@ public class Warehouse {
 		musicCarriers.remove(key);
 	}
 
+	public void savePublicationCsv() {
+		CsvTools csv = new CsvTools();
+		String fileHeader = "Publications\nTitle,Price,Pages,Publisher";
+		String nameFile ="Publications.csv";
+		csv.savePublicationsCsv(publications, fileHeader, nameFile);
+	}
+	
+	public void saveMusicCarriersCsv() {
+		CsvTools csv = new CsvTools();
+		String fileHeader = "Music Carriers\nPerformer,Title,Price,Carrier,Publisher";
+		String nameFile ="Music Carriers.csv";
+		csv.saveMusicCarriersCsv(musicCarriers, fileHeader, nameFile);;
+	}
 }

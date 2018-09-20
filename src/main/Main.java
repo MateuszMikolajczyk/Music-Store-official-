@@ -10,7 +10,6 @@ public class Main {
 		System.out.println(PROGRAME_NAME_AND_VERSION + "\n" + "---------------------------");
 		ControlClass control = new ControlClass();
 		control.controlApp();
-		System.out.println("test branch");
 	}
 
 }
