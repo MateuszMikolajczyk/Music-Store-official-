@@ -21,7 +21,11 @@ public class Book extends Publications {
 	public void setIsbn(String isbn) {
 		this.isbn = isbn;
 	}
-
+	
+	public Book() {
+		
+	}
+	
 	public Book(String title, String pages, String publisher, String author, String isbn, int price) {
 		super(title, pages, publisher, price);
 		this.author = author;
@@ -31,14 +35,7 @@ public class Book extends Publications {
 	@Override
 	public String toString() {
 		StringBuilder print = new StringBuilder(32);
-		print.append("| Title:");
-		print.append(getTitle());
-		print.append("| Price:");
-		print.append(getPrice());
-		print.append("| Pages:");
-		print.append(getPages());
-		print.append("| Publisher:");
-		print.append(getPublisher());
+		print.append(super.toString());
 		print.append("| Author:");
 		print.append(getAuthor());
 		print.append("| ISBN:");

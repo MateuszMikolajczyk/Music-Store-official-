@@ -12,17 +12,7 @@ public class Cassette extends MusicCarriers {
 	@Override
 	public String toString() {
 		StringBuilder print = new StringBuilder(32);
-		print.append("| Performer:");
-		print.append(getPerformer());
-		print.append("| Title:");
-		print.append(getTitle());
-		print.append("| Price:");
-		print.append(getPrice());
-		print.append("| Carrier:");
-		print.append(getCarrier());
-		print.append("| Publisher:");
-		print.append(getPublisher());
-		print.append("| \n");
+		print.append(super.toString());
 		return print.toString();
 	}
 }

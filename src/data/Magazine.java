@@ -52,14 +52,7 @@ public class Magazine extends Publications {
 	@Override
 	public String toString() {
 		StringBuilder print = new StringBuilder(32);
-		print.append("| Title:");
-		print.append(getTitle());
-		print.append("| Price:");
-		print.append(getPrice());
-		print.append("| Pages:");
-		print.append(getPages());
-		print.append("| Publisher:");
-		print.append(getPublisher());
+		print.append(super.toString());
 		print.append("| Edition:");
 		print.append(getEdition());
 		print.append("| ISSN:");

@@ -2,6 +2,7 @@ package app;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
 import data.Book;
 import data.Cassette;
 import data.Cd;
@@ -56,9 +57,9 @@ public class ControlClass {
 	private String size = null;
 	private String type = null;
 
-	Warehouse warehouse = new Warehouse();
-	Publications publications = null;
-	MusicCarriers musicCarriers = null;
+	private Warehouse warehouse = new Warehouse();
+	private Publications publications = null;
+	private MusicCarriers musicCarriers = null;
 
 	public void controlApp() {
 		while (error) {
@@ -269,7 +270,7 @@ public class ControlClass {
 
 	public String showSubMenu() {
 		StringBuilder print = new StringBuilder(32);
-		print.append("| 1 - Create CSV Publications (Price,Pages,Publisher)\n");
+		print.append("| 1 - Create CSV Publications (Title,Price,Pages,Publisher)\n");
 		print.append("| 2 - Create CSV Music Carriers (Performer,Title,Price,Carrier,Publisher)\n");
 		print.append("| 3 - Back");
 		return print.toString();
@@ -277,12 +278,10 @@ public class ControlClass {
 
 	public void specialActionMenuLogic() {
 		boolean back = true;
-		int input = 0;
 
 		while (back) {
 			System.out.println(showSubMenu());
-			// input = sc.nextInt();
-			// sc.nextLine();
+			exceptionForInput(3);
 			switch (input) {
 			case 1: {
 				warehouse.savePublicationCsv();

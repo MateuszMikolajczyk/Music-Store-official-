@@ -37,7 +37,7 @@ public class Publications implements Serializable {
 	public int getPrice() {
 		return price;
 	}
-
+	
 	public void setPrice(int price) {
 		this.price = price;
 	}
@@ -53,6 +53,19 @@ public class Publications implements Serializable {
 		this.price = price;
 	}
 
+	public String toString() {
+		StringBuilder print = new StringBuilder(32);
+		print.append("| Title:");
+		print.append(getTitle());
+		print.append("| Price:");
+		print.append(getPrice());
+		print.append("| Pages:");
+		print.append(getPages());
+		print.append("| Publisher:");
+		print.append(getPublisher());
+		return print.toString();
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -13,9 +13,9 @@ import additionalFunctions.CsvTools;
 
 public class Warehouse {
 
-	HashMap<String, Publications> publications;
-	HashMap<String, MusicCarriers> musicCarriers;
-	public MyDatabase myDataBase = new MyDatabase();
+	private HashMap<String, Publications> publications;
+	private HashMap<String, MusicCarriers> musicCarriers;
+	private MyDatabase myDataBase = new MyDatabase();
 
 	public Warehouse() {
 		publications = new HashMap<>();

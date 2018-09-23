@@ -32,16 +32,7 @@ public class Vinyl extends MusicCarriers {
 	@Override
 	public String toString() {
 		StringBuilder print = new StringBuilder(32);
-		print.append("| Performer:");
-		print.append(getPerformer());
-		print.append("| Title:");
-		print.append(getTitle());
-		print.append("| Price:");
-		print.append(getPrice());
-		print.append("| Carrier:");
-		print.append(getCarrier());
-		print.append("| Publisher:");
-		print.append(getPublisher());
+		print.append(super.toString());
 		print.append("| Size:");
 		print.append(getSize());
 		print.append("| Type:");

@@ -2,6 +2,7 @@ package main;
 
 import app.ControlClass;
 
+
 public class Main {
 
 	public static final String PROGRAME_NAME_AND_VERSION = "Music Store ver. 1.0";
