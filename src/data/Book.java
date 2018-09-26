@@ -1,5 +1,8 @@
 package data;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 public class Book extends Publications {
 
 	private static final long serialVersionUID = 1L;
@@ -21,15 +24,17 @@ public class Book extends Publications {
 	public void setIsbn(String isbn) {
 		this.isbn = isbn;
 	}
-	
+
 	public Book() {
-		
+
 	}
-	
+
 	public Book(String title, String pages, String publisher, String author, String isbn, int price) {
 		super(title, pages, publisher, price);
 		this.author = author;
 		this.isbn = isbn;
+		setDate(LocalDate.now());
+		setTime(LocalTime.now());
 	}
 
 	@Override
@@ -40,7 +45,11 @@ public class Book extends Publications {
 		print.append(getAuthor());
 		print.append("| ISBN:");
 		print.append(getIsbn());
-		print.append("| \n");
+		print.append("| Time and Date of added:");
+		print.append(getTime());
+		print.append(" ");
+		print.append(getDate());
+		print.append(" |\n");
 		return print.toString();
 	}
 

@@ -13,24 +13,33 @@ import additionalFunctions.CsvTools;
 
 public class Warehouse {
 
-	private HashMap<String, Publications> publications;
-	private HashMap<String, MusicCarriers> musicCarriers;
+	private HashMap<String, Book> book;
+	private HashMap<String, Magazine> magazine;
+	private HashMap<String, Cd> cd;
+	private HashMap<String, Vinyl> vinyl;
+	private HashMap<String, Cassette> cassette;
 	private MyDatabase myDataBase = new MyDatabase();
 
 	public Warehouse() {
-		publications = new HashMap<>();
-		musicCarriers = new HashMap<>();
+		book = new HashMap<>();
+		magazine = new HashMap<>();
+		cd = new HashMap<>();
+		vinyl = new HashMap<>();
+		cassette = new HashMap<>();
 		loadDataFromMyDatabase();
 	}
 
 	public void loadDataFromMyDatabase() {
-		Path pathPublications = Paths.get(MyDatabase.MY_DATABASE_PUBLICATIONS_FILE_NAME);
-		Path pathMusicCarriers = Paths.get(MyDatabase.MY_DATABASE_MUSIC_CARRIERS_FILE_NAME);
-		if (Files.exists(pathPublications)) {
+		Path pathBooks = Paths.get(MyDatabase.MY_DATABASE_BOOKS_FILE_NAME);
+		Path pathMagazines = Paths.get(MyDatabase.MY_DATABASE_MAGAZINES_FILE_NAME);
+		Path pathCd = Paths.get(MyDatabase.MY_DATABASE_CDS_FILE_NAME);
+		Path pathVinyls = Paths.get(MyDatabase.MY_DATABASE_VINYLS_FILE_NAME);
+		Path pathCassettes = Paths.get(MyDatabase.MY_DATABASE_CASSETTES_FILE_NAME);
+		if (Files.exists(pathBooks)) {
 			try (ObjectInputStream ois = new ObjectInputStream(
-					new FileInputStream(MyDatabase.MY_DATABASE_PUBLICATIONS_FILE_NAME));) {
+					new FileInputStream(MyDatabase.MY_DATABASE_BOOKS_FILE_NAME));) {
 
-				publications = (HashMap<String, Publications>) ois.readObject();
+				book = (HashMap<String, Book>) ois.readObject();
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -40,11 +49,53 @@ public class Warehouse {
 				e.printStackTrace();
 			}
 		}
-		if (Files.exists(pathMusicCarriers)) {
+		if (Files.exists(pathMagazines)) {
 			try (ObjectInputStream ois = new ObjectInputStream(
-					new FileInputStream(MyDatabase.MY_DATABASE_MUSIC_CARRIERS_FILE_NAME));) {
+					new FileInputStream(MyDatabase.MY_DATABASE_MAGAZINES_FILE_NAME));) {
 
-				musicCarriers = (HashMap<String, MusicCarriers>) ois.readObject();
+				magazine = (HashMap<String, Magazine>) ois.readObject();
+
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		if (Files.exists(pathCd)) {
+			try (ObjectInputStream ois = new ObjectInputStream(
+					new FileInputStream(MyDatabase.MY_DATABASE_CDS_FILE_NAME));) {
+
+				cd = (HashMap<String, Cd>) ois.readObject();
+
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		if (Files.exists(pathVinyls)) {
+			try (ObjectInputStream ois = new ObjectInputStream(
+					new FileInputStream(MyDatabase.MY_DATABASE_VINYLS_FILE_NAME));) {
+
+				vinyl = (HashMap<String, Vinyl>) ois.readObject();
+
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		if (Files.exists(pathCassettes)) {
+			try (ObjectInputStream ois = new ObjectInputStream(
+					new FileInputStream(MyDatabase.MY_DATABASE_CASSETTES_FILE_NAME));) {
+
+				cassette = (HashMap<String, Cassette>) ois.readObject();
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -56,81 +107,152 @@ public class Warehouse {
 		}
 	}
 
-	public boolean addPublications(Publications publications) {
-		String pubKey = publications.getTitle();
+	public boolean addBook(Book book) {
+		String bookKey = book.getTitle();
 
-		if (this.publications.get(pubKey) != null) {
+		if (this.book.get(bookKey) != null) {
 			System.out.println("This publication already exists");
 			return false;
 		} else {
-			this.publications.put(pubKey, publications);
-			myDataBase.savePublication(this.publications);
+			this.book.put(bookKey, book);
+			myDataBase.saveBook(this.book);
 			return true;
 		}
 	}
 
-	public boolean addMusicCarriers(MusicCarriers musicCarriers) {
-		String musKey = musicCarriers.getPerformer() + " " + musicCarriers.getTitle();
+	public boolean addMagazine(Magazine magazine) {
+		String magazineKey = magazine.getTitle();
 
-		if (this.musicCarriers.get(musKey) != null) {
-			System.out.println("This music carriers already exists");
+		if (this.magazine.get(magazineKey) != null) {
+			System.out.println("This publication already exists");
 			return false;
 		} else {
-			this.musicCarriers.put(musKey, musicCarriers);
-			myDataBase.saveMusicCarriers(this.musicCarriers);
+			this.magazine.put(magazineKey, magazine);
+			myDataBase.saveMagazine(this.magazine);
 			return true;
 		}
 	}
 
-	public Publications getPublication(String title) {
-		return publications.get(title);
+	public boolean addCd(Cd cd) {
+		String cdKey = cd.getPerformer() + " " + cd.getTitle();
+
+		if (this.cd.get(cdKey) != null) {
+			System.out.println("This music carrier already exists");
+			return false;
+		} else {
+			this.cd.put(cdKey, cd);
+			myDataBase.saveCd(this.cd);
+			return true;
+		}
 	}
 
-	public MusicCarriers getMusicCarrier(String title, String performer) {
+	public boolean addVinyl(Vinyl vinyl) {
+		String vinylKey = vinyl.getPerformer() + " " + vinyl.getTitle();
+
+		if (this.vinyl.get(vinylKey) != null) {
+			System.out.println("This music carrier already exists");
+			return false;
+		} else {
+			this.vinyl.put(vinylKey, vinyl);
+			myDataBase.saveVinyl(this.vinyl);
+			return true;
+		}
+	}
+
+	public boolean addCassette(Cassette cassette) {
+		String cassetteKey = cassette.getPerformer() + " " + cassette.getTitle();
+
+		if (this.cassette.get(cassetteKey) != null) {
+			System.out.println("This music carrier already exists");
+			return false;
+		} else {
+			this.cassette.put(cassetteKey, cassette);
+			myDataBase.saveCassettes(this.cassette);
+			return true;
+		}
+	}
+
+	public Book getBook(String title) {
+		return book.get(title);
+	}
+
+	public Magazine getMagazine(String title) {
+		return magazine.get(title);
+	}
+
+	public Cd getCd(String title, String performer) {
 		String performerPlusTitle = performer + " " + title;
-		return musicCarriers.get(performerPlusTitle);
+		return cd.get(performerPlusTitle);
+	}
+
+	public Vinyl getVinyl(String title, String performer) {
+		String performerPlusTitle = performer + " " + title;
+		return vinyl.get(performerPlusTitle);
+	}
+
+	public Cassette getCassette(String title, String performer) {
+		String performerPlusTitle = performer + " " + title;
+		return cassette.get(performerPlusTitle);
 	}
 
 	public void getAllPublication() {
-		System.out.println("PUBLICATIONS\n" + publications.values());
+		System.out.println("PUBLICATIONS\n" + "---------------------\n" + "BOOKS\n" + book.values() + "\nMAGAZINES\n"
+				+ magazine.values() + "\n");
 	}
 
 	public void getAllMusicCarrier() {
-		System.out.println("MUSIC CARRIERS\n" + musicCarriers.values());
+		System.out.println("MUSIC CARRIERS\n" + "---------------------\n" + "CDs\n" + cd.values() + "\nVINYLS\n"
+				+ vinyl.values() + "\nCASSETTES\n" + cassette.values() + "\n");
 	}
 
 	public void getAllWarehouse() {
-		System.out.println("PUBLICATIONS\n" + publications.values());
-		System.out.println("MUSIC CARRIERS\n" + musicCarriers.values());
+		getAllPublication();
+		getAllMusicCarrier();
 	}
 
 	public void deleteAll() {
-		publications.clear();
-		musicCarriers.clear();
-		myDataBase.savePublication(this.publications);
-		myDataBase.saveMusicCarriers(this.musicCarriers);
+		book.clear();
+		magazine.clear();
+		cd.clear();
+		vinyl.clear();
+		cassette.clear();
+		myDataBase.saveBook(this.book);
+		myDataBase.saveMagazine(this.magazine);
+		myDataBase.saveCd(this.cd);
+		myDataBase.saveVinyl(this.vinyl);
+		myDataBase.saveCassettes(this.cassette);
 	}
 
-	public void deletePublication(String key) {
-		publications.remove(key);
-		myDataBase.savePublication(this.publications);
+	public void deleteBook(String key) {
+		book.remove(key);
+		myDataBase.saveBook(this.book);
 	}
 
-	public void deleteMusicCarrier(String key) {
-		musicCarriers.remove(key);
+	public void deleteMagazine(String key) {
+		magazine.remove(key);
+		myDataBase.saveMagazine(this.magazine);
 	}
 
-	public void savePublicationCsv() {
+	public void deleteCd(String key) {
+		cd.remove(key);
+		myDataBase.saveCd(this.cd);
+	}
+
+	public void deleteVinyl(String key) {
+		vinyl.remove(key);
+		myDataBase.saveVinyl(this.vinyl);
+	}
+
+	public void deleteCassette(String key) {
+		cassette.remove(key);
+		myDataBase.saveCassettes(this.cassette);
+	}
+
+	public void saveWarehouseCsv() {
 		CsvTools csv = new CsvTools();
-		String fileHeader = "Publications\nTitle,Price,Pages,Publisher";
-		String nameFile ="Publications.csv";
-		csv.savePublicationsCsv(publications, fileHeader, nameFile);
+		String fileHeader = "Warehouse\nKIND OF PRODUCT,TITLE,PERFORMER,AUTHOR,PAGES,PUBLISHER,ISBN,ISSN,YEAR,VOLUME,EDITION,SIZE,TYPE,PRICE";
+		String nameFile = "Warehouse.csv";
+		csv.saveWarehose(book, magazine, cd, vinyl, cassette, fileHeader, nameFile);
 	}
 	
-	public void saveMusicCarriersCsv() {
-		CsvTools csv = new CsvTools();
-		String fileHeader = "Music Carriers\nPerformer,Title,Price,Carrier,Publisher";
-		String nameFile ="Music Carriers.csv";
-		csv.saveMusicCarriersCsv(musicCarriers, fileHeader, nameFile);;
-	}
 }

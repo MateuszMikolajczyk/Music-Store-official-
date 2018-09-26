@@ -1,5 +1,8 @@
 package data;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 public class Vinyl extends MusicCarriers {
 
 	private static final long serialVersionUID = 1L;
@@ -22,11 +25,13 @@ public class Vinyl extends MusicCarriers {
 		this.type = type;
 	}
 
-	public Vinyl(String performer, String title, String carrier, String publisher, int price, String size,
+	public Vinyl(String performer, String title, String publisher, int price, String size,
 			String type) {
-		super(performer, title, carrier, publisher, price);
+		super(performer, title, publisher, price);
 		this.size = size;
 		this.type = type;
+		setDate(LocalDate.now());
+		setTime(LocalTime.now());
 	}
 
 	@Override
@@ -37,7 +42,11 @@ public class Vinyl extends MusicCarriers {
 		print.append(getSize());
 		print.append("| Type:");
 		print.append(getType());
-		print.append("| \n");
+		print.append("| Time and Date of added:");
+		print.append(getTime());
+		print.append(" ");
+		print.append(getDate());
+		print.append(" |\n");
 		return print.toString();
 	}
 

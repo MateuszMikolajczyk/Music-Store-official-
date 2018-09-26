@@ -7,8 +7,6 @@ import data.Book;
 import data.Cassette;
 import data.Cd;
 import data.Magazine;
-import data.MusicCarriers;
-import data.Publications;
 import data.Vinyl;
 import data.Warehouse;
 
@@ -53,13 +51,15 @@ public class ControlClass {
 	private String author = null;
 	private String isbn = null;
 	private String performer = null;
-	private String carrier = null;
 	private String size = null;
 	private String type = null;
 
 	private Warehouse warehouse = new Warehouse();
-	private Publications publications = null;
-	private MusicCarriers musicCarriers = null;
+	private Book book = null;
+	private Magazine magazine = null;
+	private Cd cd = null;
+	private Vinyl vinyl = null;
+	private Cassette cassette = null;
 
 	public void controlApp() {
 		while (error) {
@@ -78,8 +78,8 @@ public class ControlClass {
 					System.out.println("Wrong type of data, please try again!!!!!!");
 					sc.nextLine();
 				}
-				publications = new Book(title, pages, publisher, author, isbn, price);
-				warehouse.addPublications(publications);
+				book = new Book(title, pages, publisher, author, isbn, price);
+				warehouse.addBook(book);
 				break;
 			}
 			case addMagazine: {
@@ -100,8 +100,8 @@ public class ControlClass {
 					System.out.println("Wrong type of data, please try again!!!!!!");
 					sc.nextLine();
 				}
-				publications = new Magazine(title, pages, publisher, edition, issn, year, volume, price);
-				warehouse.addPublications(publications);
+				magazine = new Magazine(title, pages, publisher, edition, issn, year, volume, price);
+				warehouse.addMagazine(magazine);
 				break;
 			}
 			case addCd: {
@@ -112,8 +112,8 @@ public class ControlClass {
 					System.out.println("Wrong type of data, please try again!!!!!!");
 					sc.nextLine();
 				}
-				musicCarriers = new Cd(performer, title, carrier, publisher, price);
-				warehouse.addMusicCarriers(musicCarriers);
+				cd = new Cd(performer, title, publisher, price);
+				warehouse.addCd(cd);
 				break;
 			}
 			case addCassette: {
@@ -124,8 +124,8 @@ public class ControlClass {
 					System.out.println("Wrong type of data, please try again!!!!!!");
 					sc.nextLine();
 				}
-				musicCarriers = new Cassette(performer, title, carrier, publisher, price);
-				warehouse.addMusicCarriers(musicCarriers);
+				cassette = new Cassette(performer, title, publisher, price);
+				warehouse.addCassette(cassette);
 				break;
 			}
 			case addVinyl: {
@@ -140,33 +140,16 @@ public class ControlClass {
 					System.out.println("Wrong type of data, please try again!!!!!!");
 					sc.nextLine();
 				}
-				musicCarriers = new Vinyl(performer, title, carrier, publisher, price, size, type);
-				warehouse.addMusicCarriers(musicCarriers);
+				vinyl = new Vinyl(performer, title, publisher, price, size, type);
+				warehouse.addVinyl(vinyl);
 				break;
 			}
 			case showPublication: {
-				System.out.println("Please write title of publication");
-				try {
-					title = sc.nextLine();
-				} catch (InputMismatchException e) {
-					e.printStackTrace();
-					System.out.println("Wrong, please try again!!!!!!");
-					sc.nextLine();
-				}
-				System.out.println(warehouse.getPublication(title));
+				showPublicationMenuLogic();
 				break;
 			}
 			case showMusicCarrier: {
-				System.out.println("Please write performer and title");
-				try {
-					performer = sc.nextLine();
-					title = sc.nextLine();
-				} catch (InputMismatchException e) {
-					e.printStackTrace();
-					System.out.println("Wrong, please try again!!!!!!");
-					sc.nextLine();
-				}
-				System.out.println(warehouse.getMusicCarrier(title, performer));
+				showMusicCarriersMenuLogic();
 				break;
 			}
 			case showlAllPublications: {
@@ -186,27 +169,11 @@ public class ControlClass {
 				break;
 			}
 			case deletePublication: {
-				System.out.println("Please write title of publication which you want to delete");
-				try {
-					title = sc.nextLine();
-				} catch (InputMismatchException e) {
-					e.printStackTrace();
-					System.out.println("Wrong, please try again!!!!!!");
-					sc.nextLine();
-				}
-				warehouse.deletePublication(title);
+				deletePublicationMenuLogic();
 				break;
 			}
 			case deleteMusicCarrier: {
-				System.out.println("Please write title of music carrier which you want to delete");
-				try {
-					title = sc.nextLine();
-				} catch (InputMismatchException e) {
-					e.printStackTrace();
-					System.out.println("Wrong, please try again!!!!!!");
-					sc.nextLine();
-				}
-				warehouse.deleteMusicCarrier(title);
+				deleteMusicCarriersMenuLogic();
 				break;
 			}
 			case specialActions: {
@@ -239,8 +206,6 @@ public class ControlClass {
 		performer = sc.nextLine();
 		System.out.println("Write title");
 		title = sc.nextLine();
-		System.out.println("Write kind of carrier");
-		carrier = sc.nextLine();
 		System.out.println("Write publisher");
 		publisher = sc.nextLine();
 		System.out.println("Write price");
@@ -250,29 +215,62 @@ public class ControlClass {
 
 	public String showMenu() {
 		StringBuilder print = new StringBuilder(32);
-		print.append("| 1 - Add Book \n");
-		print.append("| 2 - Add Magazine \n");
-		print.append("| 3 - Add Cd \n");
-		print.append("| 4 - Add Cassette \n");
-		print.append("| 5 - Add Vinyl \n");
-		print.append("| 6 - Show Publication \n");
-		print.append("| 7 - Show Music Carrier \n");
-		print.append("| 8 - Show All Publication \n");
-		print.append("| 9 - Show All Music Carrier \n");
-		print.append("| 10 - Show All Warehouse \n");
-		print.append("| 11 - Delete All \n");
-		print.append("| 12 - Delete Publication \n");
-		print.append("| 13 - Delete Music Carrier \n");
-		print.append("| 14 - Special Actions \n");
+		print.append("| 1 - Add book \n");
+		print.append("| 2 - Add magazine \n");
+		print.append("| 3 - Add cd \n");
+		print.append("| 4 - Add cassette \n");
+		print.append("| 5 - Add vinyl \n");
+		print.append("| 6 - Show publication \n");
+		print.append("| 7 - Show music carrier \n");
+		print.append("| 8 - Show all publication \n");
+		print.append("| 9 - Show all music carrier \n");
+		print.append("| 10 - Show all warehouse \n");
+		print.append("| 11 - Delete all \n");
+		print.append("| 12 - Delete publication \n");
+		print.append("| 13 - Delete music carrier \n");
+		print.append("| 14 - Special actions \n");
 		print.append("| 15 - EXIT ");
 		return print.toString();
 	}
 
-	public String showSubMenu() {
+	public String showSubMenuSpecialActions() {
 		StringBuilder print = new StringBuilder(32);
-		print.append("| 1 - Create CSV Publications (Title,Price,Pages,Publisher)\n");
-		print.append("| 2 - Create CSV Music Carriers (Performer,Title,Price,Carrier,Publisher)\n");
+		print.append("| 1 - Create CSV warehouse\n");
+		print.append("| 2 - Back");
+		return print.toString();
+	}
+
+	public String showSubMenuShowPublications() {
+		StringBuilder print = new StringBuilder(32);
+		print.append("| 1 - Show book\n");
+		print.append("| 2 - Show magazine\n");
 		print.append("| 3 - Back");
+		return print.toString();
+	}
+
+	public String showSubMenuShowMusicCarriers() {
+		StringBuilder print = new StringBuilder(32);
+		print.append("| 1 - Show CD\n");
+		print.append("| 2 - Show vinyl\n");
+		print.append("| 3 - Show cassette\n");
+		print.append("| 4 - Back");
+		return print.toString();
+	}
+
+	public String deleteSubMenuShowPublications() {
+		StringBuilder print = new StringBuilder(32);
+		print.append("| 1 - delete book\n");
+		print.append("| 2 - delete magazine\n");
+		print.append("| 3 - back");
+		return print.toString();
+	}
+
+	public String deleteSubMenuShowMusicCarriers() {
+		StringBuilder print = new StringBuilder(32);
+		print.append("| 1 - delete CD\n");
+		print.append("| 2 - delete vinyl\n");
+		print.append("| 3 - delete cassette\n");
+		print.append("| 4 - back");
 		return print.toString();
 	}
 
@@ -280,18 +278,134 @@ public class ControlClass {
 		boolean back = true;
 
 		while (back) {
-			System.out.println(showSubMenu());
-			exceptionForInput(3);
+			System.out.println(showSubMenuSpecialActions());
+			exceptionForInput(2);
 			switch (input) {
 			case 1: {
-				warehouse.savePublicationCsv();
+				warehouse.saveWarehouseCsv();
 				break;
 			}
 			case 2: {
-				warehouse.saveMusicCarriersCsv();
+				back = false;
+				break;
+			}
+			}
+
+		}
+	}
+
+	public void showPublicationMenuLogic() {
+		boolean back = true;
+
+		while (back) {
+			System.out.println(showSubMenuShowPublications());
+			exceptionForInput(3);
+			switch (input) {
+			case 1: {
+				System.out.println("Please write title of book");
+				exceptionForPublicationsAndMusicCarriersTitle();
+				System.out.println(warehouse.getBook(title));
+				break;
+			}
+			case 2: {
+				System.out.println("Please write title of magazine");
+				exceptionForPublicationsAndMusicCarriersTitle();
+				System.out.println(warehouse.getMagazine(title));
 				break;
 			}
 			case 3: {
+				back = false;
+				break;
+			}
+			}
+		}
+	}
+
+	public void showMusicCarriersMenuLogic() {
+		boolean back = true;
+
+		while (back) {
+			System.out.println(showSubMenuShowMusicCarriers());
+			exceptionForInput(4);
+			switch (input) {
+			case 1: {
+				exceptionForMusicCarriersPerformerAndTitle();
+				System.out.println(warehouse.getCd(title, performer));
+				break;
+			}
+			case 2: {
+				exceptionForMusicCarriersPerformerAndTitle();
+				System.out.println(warehouse.getVinyl(title, performer));
+				break;
+			}
+			case 3: {
+				exceptionForMusicCarriersPerformerAndTitle();
+				System.out.println(warehouse.getCassette(title, performer));
+				break;
+			}
+			case 4: {
+				back = false;
+				break;
+			}
+			}
+
+		}
+	}
+
+	public void deletePublicationMenuLogic() {
+		boolean back = true;
+
+		while (back) {
+			System.out.println(deleteSubMenuShowPublications());
+			exceptionForInput(3);
+			switch (input) {
+			case 1: {
+				System.out.println("Please write title of book which you want to delete");
+				exceptionForPublicationsAndMusicCarriersTitle();
+				warehouse.deleteBook(title);
+				break;
+			}
+			case 2: {
+				System.out.println("Please write title of magazine which you want to delete");
+				exceptionForPublicationsAndMusicCarriersTitle();
+				warehouse.deleteMagazine(title);
+				break;
+			}
+			case 3: {
+				back = false;
+				break;
+			}
+			}
+
+		}
+	}
+
+	public void deleteMusicCarriersMenuLogic() {
+		boolean back = true;
+
+		while (back) {
+			System.out.println(deleteSubMenuShowMusicCarriers());
+			exceptionForInput(4);
+			switch (input) {
+			case 1: {
+				System.out.println("Please write title of CD which you want to delete");
+				exceptionForPublicationsAndMusicCarriersTitle();
+				warehouse.deleteCd(title);
+				break;
+			}
+			case 2: {
+				System.out.println("Please write title of vinyl which you want to delete");
+				exceptionForPublicationsAndMusicCarriersTitle();
+				warehouse.deleteVinyl(title);
+				break;
+			}
+			case 3: {
+				System.out.println("Please write title of music carrier which you want to delete");
+				exceptionForPublicationsAndMusicCarriersTitle();
+				warehouse.deleteCassette(title);
+				break;
+			}
+			case 4: {
 				back = false;
 				break;
 			}
@@ -310,6 +424,28 @@ public class ControlClass {
 		}
 		if (input > maxChoice || input <= 0) {
 			System.out.println("Wrong command, please try again!!!!!!");
+		}
+	}
+
+	public void exceptionForPublicationsAndMusicCarriersTitle() {
+		try {
+			title = sc.nextLine();
+		} catch (InputMismatchException e) {
+			e.printStackTrace();
+			System.out.println("Wrong, please try again!!!!!!");
+			sc.nextLine();
+		}
+	}
+
+	public void exceptionForMusicCarriersPerformerAndTitle() {
+		System.out.println("Please write performer and title");
+		try {
+			performer = sc.nextLine();
+			title = sc.nextLine();
+		} catch (InputMismatchException e) {
+			e.printStackTrace();
+			System.out.println("Wrong, please try again!!!!!!");
+			sc.nextLine();
 		}
 	}
 }

@@ -1,18 +1,27 @@
 package data;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 public class Cassette extends MusicCarriers {
 
 	private static final long serialVersionUID = 1L;
 
-	public Cassette(String performer, String title, String carrier, String publisher, int price) {
-		super(performer, title, carrier, publisher, price);
-
+	public Cassette(String performer, String title, String publisher, int price) {
+		super(performer, title, publisher, price);
+		setDate(LocalDate.now());
+		setTime(LocalTime.now());
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder print = new StringBuilder(32);
 		print.append(super.toString());
+		print.append("| Time and Date of added:");
+		print.append(getTime());
+		print.append(" ");
+		print.append(getDate());
+		print.append(" |\n");
 		return print.toString();
 	}
 }

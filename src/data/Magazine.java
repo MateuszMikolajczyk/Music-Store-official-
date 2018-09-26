@@ -1,5 +1,8 @@
 package data;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 public class Magazine extends Publications {
 
 	private static final long serialVersionUID = 1L;
@@ -47,6 +50,8 @@ public class Magazine extends Publications {
 		this.issn = issn;
 		this.year = year;
 		this.volume = volume;
+		setDate(LocalDate.now());
+		setTime(LocalTime.now());
 	}
 
 	@Override
@@ -61,7 +66,11 @@ public class Magazine extends Publications {
 		print.append(getYear());
 		print.append("| Volume");
 		print.append(getVolume());
-		print.append("| \n");
+		print.append("| Time and Date of added:");
+		print.append(getTime());
+		print.append(" ");
+		print.append(getDate());
+		print.append(" |\n");
 		return print.toString();
 	}
 
