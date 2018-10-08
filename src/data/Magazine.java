@@ -3,7 +3,7 @@ package data;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Magazine extends Publications {
+public class Magazine extends Publication {
 
 	private static final long serialVersionUID = 1L;
 	private String edition;
@@ -41,6 +41,10 @@ public class Magazine extends Publications {
 
 	public void setVolume(int volume) {
 		this.volume = volume;
+	}
+
+	public Magazine() {
+
 	}
 
 	public Magazine(String title, String pages, String publisher, String edition, String issn, int year, int volume,

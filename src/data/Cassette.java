@@ -3,9 +3,13 @@ package data;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Cassette extends MusicCarriers {
+public class Cassette extends MusicCarrier {
 
 	private static final long serialVersionUID = 1L;
+
+	public Cassette() {
+
+	}
 
 	public Cassette(String performer, String title, String publisher, int price) {
 		super(performer, title, publisher, price);

@@ -7,29 +7,30 @@ import java.io.ObjectInputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Connection;
 import java.util.HashMap;
 
 import additionalFunctions.CsvTools;
 
 public class Warehouse {
 
-	private HashMap<String, Book> book;
-	private HashMap<String, Magazine> magazine;
-	private HashMap<String, Cd> cd;
-	private HashMap<String, Vinyl> vinyl;
-	private HashMap<String, Cassette> cassette;
+	private HashMap<String, Book> books;
+	private HashMap<String, Magazine> magazines;
+	private HashMap<String, Cd> cds;
+	private HashMap<String, Vinyl> vinyls;
+	private HashMap<String, Cassette> cassettes;
 	private MyDatabase myDataBase = new MyDatabase();
 
 	public Warehouse() {
-		book = new HashMap<>();
-		magazine = new HashMap<>();
-		cd = new HashMap<>();
-		vinyl = new HashMap<>();
-		cassette = new HashMap<>();
+		books = new HashMap<>();
+		magazines = new HashMap<>();
+		cds = new HashMap<>();
+		vinyls = new HashMap<>();
+		cassettes = new HashMap<>();
 		loadDataFromMyDatabase();
 	}
 
-	public void loadDataFromMyDatabase() {
+	private void loadDataFromMyDatabase() {
 		Path pathBooks = Paths.get(MyDatabase.MY_DATABASE_BOOKS_FILE_NAME);
 		Path pathMagazines = Paths.get(MyDatabase.MY_DATABASE_MAGAZINES_FILE_NAME);
 		Path pathCd = Paths.get(MyDatabase.MY_DATABASE_CDS_FILE_NAME);
@@ -39,7 +40,7 @@ public class Warehouse {
 			try (ObjectInputStream ois = new ObjectInputStream(
 					new FileInputStream(MyDatabase.MY_DATABASE_BOOKS_FILE_NAME));) {
 
-				book = (HashMap<String, Book>) ois.readObject();
+				books = (HashMap<String, Book>) ois.readObject();
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -53,7 +54,7 @@ public class Warehouse {
 			try (ObjectInputStream ois = new ObjectInputStream(
 					new FileInputStream(MyDatabase.MY_DATABASE_MAGAZINES_FILE_NAME));) {
 
-				magazine = (HashMap<String, Magazine>) ois.readObject();
+				magazines = (HashMap<String, Magazine>) ois.readObject();
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -67,7 +68,7 @@ public class Warehouse {
 			try (ObjectInputStream ois = new ObjectInputStream(
 					new FileInputStream(MyDatabase.MY_DATABASE_CDS_FILE_NAME));) {
 
-				cd = (HashMap<String, Cd>) ois.readObject();
+				cds = (HashMap<String, Cd>) ois.readObject();
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -81,7 +82,7 @@ public class Warehouse {
 			try (ObjectInputStream ois = new ObjectInputStream(
 					new FileInputStream(MyDatabase.MY_DATABASE_VINYLS_FILE_NAME));) {
 
-				vinyl = (HashMap<String, Vinyl>) ois.readObject();
+				vinyls = (HashMap<String, Vinyl>) ois.readObject();
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -95,7 +96,7 @@ public class Warehouse {
 			try (ObjectInputStream ois = new ObjectInputStream(
 					new FileInputStream(MyDatabase.MY_DATABASE_CASSETTES_FILE_NAME));) {
 
-				cassette = (HashMap<String, Cassette>) ois.readObject();
+				cassettes = (HashMap<String, Cassette>) ois.readObject();
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -110,12 +111,12 @@ public class Warehouse {
 	public boolean addBook(Book book) {
 		String bookKey = book.getTitle();
 
-		if (this.book.get(bookKey) != null) {
+		if (this.books.get(bookKey) != null) {
 			System.out.println("This publication already exists");
 			return false;
 		} else {
-			this.book.put(bookKey, book);
-			myDataBase.saveBook(this.book);
+			this.books.put(bookKey, book);
+			myDataBase.saveBook(this.books);
 			return true;
 		}
 	}
@@ -123,12 +124,12 @@ public class Warehouse {
 	public boolean addMagazine(Magazine magazine) {
 		String magazineKey = magazine.getTitle();
 
-		if (this.magazine.get(magazineKey) != null) {
+		if (this.magazines.get(magazineKey) != null) {
 			System.out.println("This publication already exists");
 			return false;
 		} else {
-			this.magazine.put(magazineKey, magazine);
-			myDataBase.saveMagazine(this.magazine);
+			this.magazines.put(magazineKey, magazine);
+			myDataBase.saveMagazine(this.magazines);
 			return true;
 		}
 	}
@@ -136,12 +137,12 @@ public class Warehouse {
 	public boolean addCd(Cd cd) {
 		String cdKey = cd.getPerformer() + " " + cd.getTitle();
 
-		if (this.cd.get(cdKey) != null) {
+		if (this.cds.get(cdKey) != null) {
 			System.out.println("This music carrier already exists");
 			return false;
 		} else {
-			this.cd.put(cdKey, cd);
-			myDataBase.saveCd(this.cd);
+			this.cds.put(cdKey, cd);
+			myDataBase.saveCd(this.cds);
 			return true;
 		}
 	}
@@ -149,12 +150,12 @@ public class Warehouse {
 	public boolean addVinyl(Vinyl vinyl) {
 		String vinylKey = vinyl.getPerformer() + " " + vinyl.getTitle();
 
-		if (this.vinyl.get(vinylKey) != null) {
+		if (this.vinyls.get(vinylKey) != null) {
 			System.out.println("This music carrier already exists");
 			return false;
 		} else {
-			this.vinyl.put(vinylKey, vinyl);
-			myDataBase.saveVinyl(this.vinyl);
+			this.vinyls.put(vinylKey, vinyl);
+			myDataBase.saveVinyl(this.vinyls);
 			return true;
 		}
 	}
@@ -162,47 +163,47 @@ public class Warehouse {
 	public boolean addCassette(Cassette cassette) {
 		String cassetteKey = cassette.getPerformer() + " " + cassette.getTitle();
 
-		if (this.cassette.get(cassetteKey) != null) {
+		if (this.cassettes.get(cassetteKey) != null) {
 			System.out.println("This music carrier already exists");
 			return false;
 		} else {
-			this.cassette.put(cassetteKey, cassette);
-			myDataBase.saveCassettes(this.cassette);
+			this.cassettes.put(cassetteKey, cassette);
+			myDataBase.saveCassettes(this.cassettes);
 			return true;
 		}
 	}
 
-	public Book getBook(String title) {
-		return book.get(title);
+	public Book getBooks(String title) {
+		return books.get(title);
 	}
 
-	public Magazine getMagazine(String title) {
-		return magazine.get(title);
+	public Magazine getMagazines(String title) {
+		return magazines.get(title);
 	}
 
-	public Cd getCd(String title, String performer) {
+	public Cd getCds(String title, String performer) {
 		String performerPlusTitle = performer + " " + title;
-		return cd.get(performerPlusTitle);
+		return cds.get(performerPlusTitle);
 	}
 
-	public Vinyl getVinyl(String title, String performer) {
+	public Vinyl getVinyls(String title, String performer) {
 		String performerPlusTitle = performer + " " + title;
-		return vinyl.get(performerPlusTitle);
+		return vinyls.get(performerPlusTitle);
 	}
 
-	public Cassette getCassette(String title, String performer) {
+	public Cassette getCassettes(String title, String performer) {
 		String performerPlusTitle = performer + " " + title;
-		return cassette.get(performerPlusTitle);
+		return cassettes.get(performerPlusTitle);
 	}
 
 	public void getAllPublication() {
-		System.out.println("PUBLICATIONS\n" + "---------------------\n" + "BOOKS\n" + book.values() + "\nMAGAZINES\n"
-				+ magazine.values() + "\n");
+		System.out.println("PUBLICATIONS\n" + "---------------------\n" + "BOOKS\n" + books.values() + "\nMAGAZINES\n"
+				+ magazines.values() + "\n");
 	}
 
 	public void getAllMusicCarrier() {
-		System.out.println("MUSIC CARRIERS\n" + "---------------------\n" + "CDs\n" + cd.values() + "\nVINYLS\n"
-				+ vinyl.values() + "\nCASSETTES\n" + cassette.values() + "\n");
+		System.out.println("MUSIC CARRIERS\n" + "---------------------\n" + "CDs\n" + cds.values() + "\nVINYLS\n"
+				+ vinyls.values() + "\nCASSETTES\n" + cassettes.values() + "\n");
 	}
 
 	public void getAllWarehouse() {
@@ -211,48 +212,85 @@ public class Warehouse {
 	}
 
 	public void deleteAll() {
-		book.clear();
-		magazine.clear();
-		cd.clear();
-		vinyl.clear();
-		cassette.clear();
-		myDataBase.saveBook(this.book);
-		myDataBase.saveMagazine(this.magazine);
-		myDataBase.saveCd(this.cd);
-		myDataBase.saveVinyl(this.vinyl);
-		myDataBase.saveCassettes(this.cassette);
+		books.clear();
+		magazines.clear();
+		cds.clear();
+		vinyls.clear();
+		cassettes.clear();
+		myDataBase.saveBook(this.books);
+		myDataBase.saveMagazine(this.magazines);
+		myDataBase.saveCd(this.cds);
+		myDataBase.saveVinyl(this.vinyls);
+		myDataBase.saveCassettes(this.cassettes);
 	}
 
 	public void deleteBook(String key) {
-		book.remove(key);
-		myDataBase.saveBook(this.book);
+		books.remove(key);
+		myDataBase.saveBook(this.books);
 	}
 
 	public void deleteMagazine(String key) {
-		magazine.remove(key);
-		myDataBase.saveMagazine(this.magazine);
+		magazines.remove(key);
+		myDataBase.saveMagazine(this.magazines);
 	}
 
 	public void deleteCd(String key) {
-		cd.remove(key);
-		myDataBase.saveCd(this.cd);
+		cds.remove(key);
+		myDataBase.saveCd(this.cds);
 	}
 
 	public void deleteVinyl(String key) {
-		vinyl.remove(key);
-		myDataBase.saveVinyl(this.vinyl);
+		vinyls.remove(key);
+		myDataBase.saveVinyl(this.vinyls);
 	}
 
 	public void deleteCassette(String key) {
-		cassette.remove(key);
-		myDataBase.saveCassettes(this.cassette);
+		cassettes.remove(key);
+		myDataBase.saveCassettes(this.cassettes);
 	}
 
 	public void saveWarehouseCsv() {
 		CsvTools csv = new CsvTools();
-		String fileHeader = "Warehouse\nKIND OF PRODUCT,TITLE,PERFORMER,AUTHOR,PAGES,PUBLISHER,ISBN,ISSN,YEAR,VOLUME,EDITION,SIZE,TYPE,PRICE";
-		String nameFile = "Warehouse.csv";
-		csv.saveWarehose(book, magazine, cd, vinyl, cassette, fileHeader, nameFile);
+		csv.saveBooks(books);
+		csv.saveMagazines(magazines);
+		csv.saveCds(cds);
+		csv.saveCassettes(cassettes);
+		csv.saveVinyls(vinyls);
 	}
-	
+
+	public void logicForInsertDataToDataBase() {
+		Connection connection = WarehouseJDBC.connect();
+		WarehouseJDBC.createTables(connection);
+		WarehouseJDBC.insertData(connection, books, magazines, cds, cassettes, vinyls);
+		WarehouseJDBC.closeConnection(connection);
+	}
+
+	public void logicForLoadDataFromDataBase() {
+		Connection connection = WarehouseJDBC.connect();
+		WarehouseJDBC.loadDataFromDataBase(connection, books, magazines, cds, cassettes, vinyls);
+		WarehouseJDBC.closeConnection(connection);
+	}
+	/*
+	 * @Prepared methods for the future implementation of sorting logic.
+	 * 
+	 * public void sortWarehouseAlphabetical() {
+	 * 
+	 * }
+	 * 
+	 * public void sortWarehouseByPriceAscending() {
+	 * 
+	 * }
+	 * 
+	 * public void sortWarehouseByPriceDescending() {
+	 * 
+	 * }
+	 * 
+	 * public void sortWarehouseByTimeAndDateAdditionAscending() {
+	 * 
+	 * }
+	 * 
+	 * public void sortWarehouseByTimeAndDateAdditionDescending() {
+	 * 
+	 * }
+	 */
 }

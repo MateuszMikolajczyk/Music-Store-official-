@@ -3,7 +3,7 @@ package data;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Book extends Publications {
+public class Book extends Publication {
 
 	private static final long serialVersionUID = 1L;
 	private String author;

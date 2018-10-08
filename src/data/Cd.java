@@ -3,9 +3,13 @@ package data;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Cd extends MusicCarriers {
+public class Cd extends MusicCarrier {
 
 	private static final long serialVersionUID = 1L;
+
+	public Cd() {
+
+	}
 
 	public Cd(String performer, String title, String publisher, int price) {
 		super(performer, title, publisher, price);

@@ -3,7 +3,7 @@ package data;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Vinyl extends MusicCarriers {
+public class Vinyl extends MusicCarrier {
 
 	private static final long serialVersionUID = 1L;
 	private String size;
@@ -25,8 +25,11 @@ public class Vinyl extends MusicCarriers {
 		this.type = type;
 	}
 
-	public Vinyl(String performer, String title, String publisher, int price, String size,
-			String type) {
+	public Vinyl() {
+
+	}
+
+	public Vinyl(String performer, String title, String publisher, int price, String size, String type) {
 		super(performer, title, publisher, price);
 		this.size = size;
 		this.type = type;
